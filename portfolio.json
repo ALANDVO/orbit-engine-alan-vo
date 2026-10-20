@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "name": "orbit-engine-alan-vo",
+  "owner": "ALANDVO",
+  "email": "alanvo@gmail.com",
+  "domain": "AI/ML developer tools",
+  "summary": "Work in progress: orbit-engine-alan-vo",
+  "workflows": [
+    "Explore prerequisite graphs with zoom/pan, search, and subject/age filters",
+    "Track per-child concept mastery with four states and evidence notes",
+    "Get deterministic next-concept recommendations with optional LLM explanations"
+  ],
+  "auth": "oidc-keycloak-saml-broker",
+  "llm_providers": [
+    "openai-compatible",
+    "anthropic",
+    "gemini",
+    "ollama"
+  ],
+  "status": "work-in-progress"
+}

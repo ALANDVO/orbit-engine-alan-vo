@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "current_feature": "project-skeleton",
+  "features": [
+    {
+      "id": "project-skeleton",
+      "title": "FastAPI + React project skeleton with Docker",
+      "status": "in_progress",
+      "acceptance": [
+        "Backend FastAPI app runs with health endpoint",
+        "Frontend Vite React app builds and serves",
+        "Docker Compose starts backend, frontend, Keycloak, and PostgreSQL",
+        "Preflight script passes basic checks"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "taxonomy-data-model",
+      "title": "Taxonomy data model and import pipeline",
+      "status": "planned",
+      "acceptance": [
+        "SQLAlchemy models for concepts, prerequisites, subjects, domains",
+        "JSONL import script loads sample taxonomy data",
+        "API endpoints for concepts, search, and graph traversal"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "graph-visualization",
+      "title": "Interactive graph visualization with Cytoscape.js",
+      "status": "planned",
+      "acceptance": [
+        "React component renders taxonomy graph",
+        "Zoom/pan works smoothly with 1500+ nodes",
+        "Node click shows concept details panel",
+        "Prerequisite edges displayed"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "learning-tracker",
+      "title": "Child learning progress tracker",
+      "status": "planned",
+      "acceptance": [
+        "Per-child profiles with concept states (not_started, learning, known, assessed)",
+        "Progress persistence via API",
+        "Filters: dim known, hide known, show only known",
+        "Search by subject, age, concept name"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "oidc-auth",
+      "title": "OIDC authentication with Keycloak",
+      "status": "planned",
+      "acceptance": [
+        "Backend validates Keycloak tokens",
+        "Frontend PKCE login flow",
+        "Role-based access (viewer, operator, admin)",
+        "Protected API endpoints"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "custom-domains",
+      "title": "Custom domain support for taxonomy",
+      "status": "planned",
+      "acceptance": [
+        "Schema supports configurable subjects/domains/difficulty",
+        "API to load/switch taxonomy datasets",
+        "UI to manage custom domains"
+      ],
+      "implementation": [],
+      "tests": []
+    },
+    {
+      "id": "ai-pathway-engine",
+      "title": "AI-powered learning pathway recommendations",
+      "status": "planned",
+      "acceptance": [
+        "Deterministic algorithm finds next learnable concepts",
+        "Optional LLM explanations for recommendations",
+        "Provider-agnostic LLM adapter (OpenAI-compatible, Anthropic, Gemini, Ollama)",
+        "Advisory labels on AI output"
+      ],
+      "implementation": [],
+      "tests": []
+    }
+  ]
+}
