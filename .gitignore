@@ -39,3 +39,4 @@ Thumbs.db
 # Coverage
 coverage/
 .nyc_output/
+venv/

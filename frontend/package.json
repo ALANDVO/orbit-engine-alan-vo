@@ -2,7 +2,11 @@
   "name": "orbit-engine-frontend",
   "version": "1.0.0",
   "type": "module",
-  "author": "Alan Vo <alanvo@gmail.com>",
+  "author": {
+    "name": "Alan Vo",
+    "email": "alanvo@gmail.com",
+    "url": "https://github.com/ALANDVO"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
