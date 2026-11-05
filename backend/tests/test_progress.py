@@ -7,45 +7,8 @@ from app.models import Domain, Subject, Concept, ChildProfile, ConceptProgress, 
 from sqlalchemy import select
 
 
-@pytest.fixture(scope="function")
-async def db_session():
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    async with async_session_maker() as session:
-        yield session
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.drop_all)
 
 
-@pytest.fixture(scope="function")
-async def client(db_session):
-    async def override_get_db():
-        yield db_session
-
-    app.dependency_overrides[get_db] = override_get_db
-    transport = ASGITransport(app=app)
-    async with AsyncClient(transport=transport, base_url="http://test") as ac:
-        yield ac
-    app.dependency_overrides.clear()
-
-
-@pytest.fixture
-async def setup_data(db_session):
-    domain = Domain(name="test", display_name="Test Domain", is_default=True)
-    db_session.add(domain)
-    await db_session.flush()
-    subject = Subject(domain_id=domain.id, name="math", display_name="Mathematics")
-    db_session.add(subject)
-    await db_session.flush()
-    concept = Concept(
-        domain_id=domain.id,
-        subject_id=subject.id,
-        concept_id="counting",
-        name="Counting to 10",
-    )
-    db_session.add(concept)
-    await db_session.flush()
-    return domain, subject, concept
 
 
 @pytest.mark.asyncio

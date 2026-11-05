@@ -62,7 +62,7 @@ async def setup_domain(db_session):
         domain_id=domain.id,
         subject_id=subject.id,
         concept_id="counting",
-        display_name="Counting",
+        name="Counting",
         description="Count to 10",
         difficulty=1,
         age_min=3,
@@ -72,24 +72,34 @@ async def setup_domain(db_session):
         domain_id=domain.id,
         subject_id=subject.id,
         concept_id="addition",
-        display_name="Addition",
+        name="Addition",
         description="Add numbers",
         difficulty=2,
         age_min=4,
         age_max=6,
     )
-    db_session.add_all([concept1, concept2])
+    concept3 = Concept(
+        domain_id=domain.id,
+        subject_id=subject.id,
+        concept_id="subtraction",
+        name="Subtraction",
+        description="Subtract numbers",
+        difficulty=2,
+        age_min=5,
+        age_max=7,
+    )
+    db_session.add_all([concept1, concept2, concept3])
     await db_session.flush()
 
     prereq = ConceptPrerequisite(
         concept_id=concept2.id,
         prerequisite_id=concept1.id,
-        is_hard=True,
+        weight=1.0,
     )
     db_session.add(prereq)
     await db_session.commit()
 
-    return domain, subject, concept1, concept2
+    return domain, subject, concept1, concept2, concept3
 
 
 def pytest_configure(config):
@@ -105,3 +115,22 @@ except ImportError:
     subprocess.check_call([sys.executable, "-m", "pip", "install", "aiosqlite"])
     import aiosqlite
 
+
+
+@pytest_asyncio.fixture
+async def setup_data(db_session):
+    domain = Domain(name="test", display_name="Test Domain", is_default=True)
+    db_session.add(domain)
+    await db_session.flush()
+    subject = Subject(domain_id=domain.id, name="math", display_name="Mathematics")
+    db_session.add(subject)
+    await db_session.flush()
+    concept = Concept(
+        domain_id=domain.id,
+        subject_id=subject.id,
+        concept_id="counting",
+        name="Counting to 10",
+    )
+    db_session.add(concept)
+    await db_session.flush()
+    return domain, subject, concept

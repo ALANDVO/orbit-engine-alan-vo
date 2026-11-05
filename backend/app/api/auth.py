@@ -84,12 +84,12 @@ def require_role(required_roles: list[str]):
     return role_checker
 
 
-@router.get("/me", response_model=UserInfo)
+@router.get("/auth/me", response_model=UserInfo)
 async def get_current_user(token: TokenData = Depends(validate_token)):
     return UserInfo(sub=token.sub, email=token.email, roles=token.roles)
 
 
-@router.get("/login")
+@router.get("/auth/login")
 async def login():
     if not settings.oidc_issuer_url:
         return {"url": "/demo-login"}

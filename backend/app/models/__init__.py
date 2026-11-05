@@ -1,10 +1,28 @@
 from datetime import datetime, timezone
 from typing import Optional
 from sqlalchemy import (
-    String, Text, Integer, ForeignKey, DateTime, UniqueConstraint, Index
+    String, Text, Integer, ForeignKey, DateTime, UniqueConstraint, Index, JSON
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
-from sqlalchemy.dialects.postgresql import JSONB
+
+from app.core.database import Base
+
+
+# Use JSON for SQLite compatibility, JSONB for PostgreSQL
+from sqlalchemy.types import TypeDecorator
+from sqlalchemy.dialects import postgresql
+
+
+class JSONVariant(TypeDecorator):
+    """Use JSONB on PostgreSQL, JSON on SQLite and other dialects."""
+    impl = JSON
+    cache_ok = True
+
+    def load_dialect_impl(self, dialect):
+        if dialect.name == "postgresql":
+            return dialect.type_descriptor(JSONB())
+        return dialect.type_descriptor(JSON())
+
 
 from app.core.database import Base
 
@@ -18,7 +36,7 @@ class Domain(Base):
     description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     version: Mapped[str] = mapped_column(String(50), nullable=False, default="1.0.0")
     is_default: Mapped[bool] = mapped_column(default=False, nullable=False)
-    metadata_: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -46,7 +64,7 @@ class Subject(Base):
     difficulty_min: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     difficulty_max: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     sort_order: Mapped[int] = mapped_column(Integer, default=0, nullable=False)
-    metadata_: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -80,7 +98,7 @@ class Concept(Base):
     difficulty: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
     evidence_criteria: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
     assessment_prompt: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
-    metadata_: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -119,7 +137,7 @@ class ConceptPrerequisite(Base):
     concept_id: Mapped[int] = mapped_column(ForeignKey("concepts.id", ondelete="CASCADE"), nullable=False)
     prerequisite_id: Mapped[int] = mapped_column(ForeignKey("concepts.id", ondelete="CASCADE"), nullable=False)
     weight: Mapped[float] = mapped_column(default=1.0, nullable=False)
-    metadata_: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -141,7 +159,7 @@ class ChildProfile(Base):
     user_id: Mapped[str] = mapped_column(String(255), nullable=False, index=True)
     name: Mapped[str] = mapped_column(String(200), nullable=False)
     birth_date: Mapped[Optional[datetime]] = mapped_column(DateTime(timezone=True), nullable=True)
-    metadata_: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    metadata_: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
     )
@@ -197,7 +215,7 @@ class AuditLog(Base):
     action: Mapped[str] = mapped_column(String(100), nullable=False)
     resource_type: Mapped[str] = mapped_column(String(100), nullable=False)
     resource_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
-    details: Mapped[dict] = mapped_column(JSONB, default=dict, nullable=False)
+    details: Mapped[dict] = mapped_column(JSONVariant, default=dict, nullable=False)
     ip_address: Mapped[Optional[str]] = mapped_column(String(45), nullable=True)
     created_at: Mapped[datetime] = mapped_column(
         DateTime(timezone=True), default=lambda: datetime.now(timezone.utc), nullable=False
