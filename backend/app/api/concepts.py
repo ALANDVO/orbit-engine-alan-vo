@@ -3,6 +3,7 @@ from sqlalchemy import select, func, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
 from datetime import datetime, timezone
 
@@ -34,8 +35,8 @@ class ConceptResponse(BaseModel):
     evidence_criteria: Optional[str]
     assessment_prompt: Optional[str]
     metadata_: dict
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True

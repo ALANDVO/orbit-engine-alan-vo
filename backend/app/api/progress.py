@@ -3,6 +3,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
 from datetime import datetime, timezone
 
@@ -14,7 +15,7 @@ router = APIRouter()
 
 class ChildProfileCreate(BaseModel):
     name: str
-    birth_date: Optional[str] = None
+    birth_date: Optional[datetime] = None
     metadata_: dict = {}
 
 
@@ -22,10 +23,10 @@ class ChildProfileResponse(BaseModel):
     id: int
     user_id: str
     name: str
-    birth_date: Optional[str]
+    birth_date: Optional[datetime]
     metadata_: dict
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True
@@ -48,9 +49,9 @@ class ConceptProgressResponse(BaseModel):
     concept_id: int
     state: str
     evidence_notes: Optional[str]
-    assessed_at: Optional[str]
-    created_at: str
-    updated_at: str
+    assessed_at: Optional[datetime]
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True
@@ -97,9 +98,7 @@ async def create_profile(
     user_id: str = Query(...),
     db: AsyncSession = Depends(get_db),
 ):
-    birth_date = None
-    if profile.birth_date:
-        birth_date = datetime.fromisoformat(profile.birth_date.replace("Z", "+00:00"))
+    birth_date = profile.birth_date
 
     db_profile = ChildProfile(
         user_id=user_id,
@@ -117,7 +116,7 @@ async def create_profile(
 async def update_profile(
     profile_id: int,
     name: Optional[str] = None,
-    birth_date: Optional[str] = None,
+    birth_date: Optional[datetime] = None,
     metadata_: Optional[dict] = None,
     db: AsyncSession = Depends(get_db),
 ):
@@ -129,7 +128,7 @@ async def update_profile(
     if name is not None:
         profile.name = name
     if birth_date is not None:
-        profile.birth_date = datetime.fromisoformat(birth_date.replace("Z", "+00:00"))
+        profile.birth_date = birth_date
     if metadata_ is not None:
         profile.metadata_ = metadata_
 

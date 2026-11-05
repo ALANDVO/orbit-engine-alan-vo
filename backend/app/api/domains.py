@@ -3,6 +3,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
 
 from app.core.database import get_db
@@ -28,8 +29,8 @@ class DomainResponse(BaseModel):
     version: str
     is_default: bool
     metadata_: dict
-    created_at: str
-    updated_at: str
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         from_attributes = True
