@@ -204,3 +204,7 @@ LLM explanations are evaluated separately for factual grounding against the actu
 ## License
 
 MIT License — Copyright (c) 2026 Alan Vo <alanvo@gmail.com>
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

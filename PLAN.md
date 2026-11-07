@@ -76,3 +76,6 @@ Acceptance:
 - Provider-agnostic LLM adapter (OpenAI-compatible, Anthropic, Gemini, Ollama)
 - Advisory labels on AI output
 
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)

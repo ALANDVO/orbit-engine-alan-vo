@@ -29,3 +29,7 @@ All notable changes to this project will be documented in this file.
 - Backend tests: health, domains, concepts, progress, auth, import, filtering (12+ tests)
 - Frontend tests: LoginPage, ExplorerPage (3+ tests)
 - MIT License, README with architecture diagram and API reference
+
+---
+
+Alan Vo · [alanvo.net](https://alanvo.net)
