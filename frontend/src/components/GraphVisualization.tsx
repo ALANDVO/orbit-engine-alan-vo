@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
-import { GraphNode, GraphEdge, Concept } from '../types';
+import { GraphNode, GraphEdge, Concept, ProgressState } from '../types';
 import { useAppStore } from '../hooks/useAppStore';
 
 cytoscape.use(coseBilkent);
@@ -11,7 +11,8 @@ interface GraphVisualizationProps {
   edges: GraphEdge[];
   onNodeClick: (node: GraphNode) => void;
   selectedNodeId: number | null;
-  progressMap: Map<number, Concept['state']>;
+  progressMap: Map<number, ProgressState>;
+  style?: React.CSSProperties;
 }
 
 export const GraphVisualization: React.FC<GraphVisualizationProps> = ({

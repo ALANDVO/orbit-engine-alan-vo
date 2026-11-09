@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { domainsApi, conceptsApi, progressApi, authApi } from '../api/client';
 import { useAppStore } from '../hooks/useAppStore';
-import { GraphVisualization } from './GraphVisualization';
-import { ConceptPanel } from './ConceptPanel';
-import { SearchFilter } from './SearchFilter';
-import { Domain, Concept, ChildProfile, ConceptProgress, GraphNode, GraphEdge } from '../types';
+import { GraphVisualization } from '../components/GraphVisualization';
+import { ConceptPanel } from '../components/ConceptPanel';
+import { SearchFilter } from '../components/SearchFilter';
+import { Concept, ProgressState, GraphNode, GraphEdge } from '../types';
 
 export const ExplorerPage: React.FC = () => {
   const navigate = useNavigate();
@@ -157,7 +157,7 @@ export const ExplorerPage: React.FC = () => {
     }
   };
 
-  const handleStateChange = (state: Concept['state']) => {
+  const handleStateChange = (state: ProgressState) => {
     if (!selectedConcept || !currentProfile) return;
     updateProgress(selectedConcept.id, state, evidenceNotes);
     progressApi.upsertProgress(currentProfile.id, {
@@ -167,7 +167,7 @@ export const ExplorerPage: React.FC = () => {
     });
   };
 
-  const progressMap = new Map(progress.map((p) => [p.concept_id, p.state]));
+  const progressMap = new Map<number, ProgressState>(progress.map((p) => [p.concept_id, p.state]));
 
   if (loading) {
     return <div style={{ padding: '40px', textAlign: 'center' }}>Loading...</div>;
