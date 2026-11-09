@@ -1,10 +1,10 @@
 import React from 'react';
-import { Concept } from '../types';
+import { Concept, ProgressState } from '../types';
 
 interface ConceptPanelProps {
   concept: Concept | null;
-  progressState: Concept['state'];
-  onStateChange: (state: Concept['state'], evidenceNotes?: string) => void;
+  progressState: ProgressState;
+  onStateChange: (state: ProgressState, evidenceNotes?: string) => void;
   evidenceNotes: string;
   onEvidenceNotesChange: (notes: string) => void;
 }
