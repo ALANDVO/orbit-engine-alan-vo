@@ -1,6 +1,6 @@
 [project]
 name = "orbit-engine"
-version = "1.0.0"
+version = "1.4.0"
 description = "Interactive learning taxonomy explorer with progress tracking and AI pathway recommendations"
 readme = "README.md"
 license = {text = "MIT"}
