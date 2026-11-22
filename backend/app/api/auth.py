@@ -11,13 +11,13 @@ router = APIRouter()
 security = HTTPBearer(auto_error=False)
 settings = get_settings()
 
-\nclass TokenData(BaseModel):\
-    sub: str\
-    email: Optional[str] = None\
-    name: Optional[str] = None\
-    roles: list[str] = []\
-    aud: Optional[str] = None\
-
+class TokenData(BaseModel):
+    sub: str
+    email: Optional[str] = None
+    name: Optional[str] = None
+    roles: list[str] = []
+    aud: Optional[str] = None
 
 
 class UserInfo(BaseModel):
+    pass
