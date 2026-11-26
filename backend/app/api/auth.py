@@ -21,3 +21,21 @@ class TokenData(BaseModel):
 
 class UserInfo(BaseModel):
     pass
+
+
+@router.get("/auth/me", response_model=UserInfo)
+async def get_current_user():
+    """Get current authenticated user info.
+    
+    Returns 401 if not authenticated.
+    """
+    raise HTTPException(status_code=401, detail="Authentication required")
+
+
+@router.get("/auth/login")
+async def get_login_url():
+    """Get login URL for OIDC authentication.
+    
+    Returns demo login URL for demo mode.
+    """
+    return {"url": "/demo-login"}

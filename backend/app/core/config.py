@@ -1,4 +1,3 @@
-from functools import lru_cache
 from pydantic_settings import BaseSettings
 from pydantic import Field
 
@@ -40,6 +39,5 @@ class Settings(BaseSettings):
         case_sensitive = False
 
 
-@lru_cache
 def get_settings() -> Settings:
     return Settings()
